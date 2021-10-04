@@ -45,7 +45,7 @@ public class Client {
 extension Client {
     
     @discardableResult public func connect() -> DataStreamRequest {
-        eventSource = eventSource ?? session.eventSourceRequest(channelURL(uid: eventSourceUID), method: .put, lastEventID: String(eventID))
+        eventSource = eventSource ?? session.eventSourceRequest(channelURL(uid: eventSourceUID), lastEventID: String(eventID))
             .validate()
             .responseDecodableEventSource(using: DecodableEventSourceSerializer<Response>(decoder: ClientJSONDecoder())) { [weak self] eventSource in
                 switch eventSource.event {
