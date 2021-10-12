@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import Alamofire
 import AlamofireEventSource
 
@@ -101,19 +100,6 @@ extension Client {
         return session
             .request(spiderURL(input: input, thread: thread, output: output))
             .validate()
-    }
-}
-
-extension Client {
-    
-    @discardableResult public func loginRequest() -> AnyPublisher<Ship, AFError> {
-        let parameters = ["password": Code.Prefixless(credentials.code)]
-        return session
-            .request(loginURL, method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default)
-            .validate()
-            .publishResponse(using: ClientLoginResponseSerializer())
-            .value()
-            .eraseToAnyPublisher()
     }
     
 }
