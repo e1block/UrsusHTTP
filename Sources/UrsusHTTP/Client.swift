@@ -37,7 +37,7 @@ public class Client {
     }
     
     deinit {
-        deleteRequest()
+//        deleteRequest()
     }
     
 }
