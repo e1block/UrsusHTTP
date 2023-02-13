@@ -195,7 +195,7 @@ extension Client {
     }
     
     private func eventSource(didReceiveCompletion completion: DataStreamRequest.Completion) {
-        deleteRequest()
+//        deleteRequest()
         
         eventSource = nil
         eventSourceUID = Client.uid()
