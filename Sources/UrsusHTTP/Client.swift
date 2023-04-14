@@ -107,7 +107,7 @@ extension Client {
 extension Client {
     
     @discardableResult public func ackRequest(eventID: Int) -> DataRequest {
-        let request = AckRequest(eventID: eventID)
+        let request = AckRequest(id: nextRequestID, eventID: eventID)
         return channelRequest(request)
     }
     

@@ -8,7 +8,8 @@
 import Foundation
 
 internal struct AckRequest: Encodable {
-    
+
+    var id: Int
     var action: String = "ack"
     var eventID: Int
     
