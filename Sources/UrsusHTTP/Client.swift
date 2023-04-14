@@ -108,7 +108,13 @@ extension Client {
     
     @discardableResult public func ackRequest(eventID: Int) -> DataRequest {
         let request = AckRequest(id: nextRequestID, eventID: eventID)
-        return channelRequest(request)
+        return channelRequest(request).response { response in
+            if case .failure = response.result {
+                print("ACK FAILED: \(response)")
+            } else {
+                print("ACK PASSED: \(response)")
+            }
+        }
     }
     
     @discardableResult public func pokeRequest<JSON: Encodable>(ship: Ship, app: App, mark: Mark = "json", json: JSON, handler: @escaping (PokeEvent) -> Void) -> DataRequest {
