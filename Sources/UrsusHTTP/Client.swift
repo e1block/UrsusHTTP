@@ -23,6 +23,7 @@ public class Client {
     
     private var pokeHandlers = [Int: (PokeEvent) -> Void]()
     private var subscribeHandlers = [Int: (SubscribeEvent<Data>) -> Void]()
+    private var subscriptions = [Int: Subscription]()
 
     public let session: Session
     public let credentials: Credentials
@@ -133,12 +134,15 @@ extension Client {
     
     @discardableResult public func subscribeRequest(ship: Ship, app: App, path: Path, handler: @escaping (SubscribeEvent<Data>) -> Void) -> DataRequest {
         let id = nextRequestID
-        let ship = Ship.Prefixless(ship)
-        let request = SubscribeRequest(id: id, ship: ship, app: app, path: path)
+        let shipPrefixless = Ship.Prefixless(ship)
+        let request = SubscribeRequest(id: id, ship: shipPrefixless, app: app, path: path)
         subscribeHandlers[id] = handler
+        subscriptions[id] = Subscription(id: id, ship: ship, path: path, app: app)
+
         return channelRequest(request).response { [weak self] response in
             if case .failure = response.result {
                 self?.subscribeHandlers[id] = nil
+                self?.subscriptions[id] = nil
             }
         }
     }
@@ -197,7 +201,11 @@ extension Client {
                 subscribeHandlers[response.id]?(.update(response.json))
             case .quit(let response):
                 subscribeHandlers[response.id]?(.finished)
-                subscribeHandlers[response.id] = nil
+//                subscribeHandlers[response.id] = nil
+
+                if let subscription = subscriptions[response.id] {
+                    subscribeRequest(ship: subscription.ship, app: subscription.app, path: subscription.path, handler: subscribeHandlers[response.id]!)
+                }
             }
         }
     }

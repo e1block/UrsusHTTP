@@ -1,0 +1,61 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
+        "state": {
+          "branch": null,
+          "revision": "78424be314842833c04bc3bef5b72e85fff99204",
+          "version": "5.6.4"
+        }
+      },
+      {
+        "package": "AlamofireEventSource",
+        "repositoryURL": "https://github.com/famousj/AlamofireEventSource",
+        "state": {
+          "branch": null,
+          "revision": "375128bdd9d78b8189cedb5e71fcf3188a824915",
+          "version": "1.2.2"
+        }
+      },
+      {
+        "package": "BigInt",
+        "repositoryURL": "git@github.com:attaswift/BigInt.git",
+        "state": {
+          "branch": null,
+          "revision": "0ed110f7555c34ff468e72e1686e59721f2b0da6",
+          "version": "5.3.0"
+        }
+      },
+      {
+        "package": "MurmurHash-Swift",
+        "repositoryURL": "git@github.com:daisuke-t-jp/MurmurHash-Swift.git",
+        "state": {
+          "branch": null,
+          "revision": "7e69bedaaaea09673524d83de12dac6e09d5b74a",
+          "version": "1.1.1"
+        }
+      },
+      {
+        "package": "Parity",
+        "repositoryURL": "https://github.com/famousj/Parity",
+        "state": {
+          "branch": null,
+          "revision": "2fac6468c68b6cd98cc695de78fed6b3143b5521",
+          "version": "2.4.0"
+        }
+      },
+      {
+        "package": "UrsusAtom",
+        "repositoryURL": "git@github.com:famousj/UrsusAtom.git",
+        "state": {
+          "branch": null,
+          "revision": "f36534840d79117c9f00a85f1c51ff35ce8d85da",
+          "version": "1.2.6"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
