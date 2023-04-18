@@ -12,7 +12,7 @@ import AlamofireEventSource
 public class Client {
     
     private var eventSource: DataStreamRequest? = nil
-    private var eventSourceUID: String = Client.uid()
+    private lazy var eventSourceUID = uid()
     
     private var eventID: Int = 0
     private var requestID: Int = 0
@@ -23,13 +23,15 @@ public class Client {
     
     private var pokeHandlers = [Int: (PokeEvent) -> Void]()
     private var subscribeHandlers = [Int: (SubscribeEvent<Data>) -> Void]()
-    
+
     public let session: Session
     public let credentials: Credentials
-    
-    public init(session: Session = .default, credentials: Credentials) {
+    private let channelSuffix: String?
+
+    public init(session: Session = .default, credentials: Credentials, channelSuffix: String? = nil) {
         self.session = session
         self.credentials = credentials
+        self.channelSuffix = channelSuffix
     }
     
     public convenience init(session: Session = .default, url: URL, code: Code) {
@@ -204,7 +206,7 @@ extension Client {
 //        deleteRequest()
         
         eventSource = nil
-        eventSourceUID = Client.uid()
+        eventSourceUID = uid()
 
         eventID = 0
         requestID = 0
@@ -241,8 +243,15 @@ extension Client {
 
 extension Client {
     
-    private static func uid() -> String {
-        return "\(Int(Date().timeIntervalSince1970 * 1000))-\(String(Int.random(in: 0...0xFFFFFF), radix: 16))"
+    private func uid() -> String {
+        let suffix: String
+        if let channelSuffix = channelSuffix {
+            suffix = "-\(channelSuffix)"
+        } else {
+            suffix = ""
+        }
+
+        return "\(Int(Date().timeIntervalSince1970 * 1000))-\(String(Int.random(in: 0...0xFFFFFF), radix: 16))\(suffix)"
     }
     
 }
