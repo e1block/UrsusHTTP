@@ -132,14 +132,14 @@ extension Client {
         }
     }
     
-    @discardableResult public func subscribeRequest(ship: Ship, app: App, path: Path, handler: @escaping (SubscribeEvent<Data>) -> Void) -> DataRequest {
+    @discardableResult public func subscribeRequest(ship: Ship, app: App, path: Path, responseQueue: DispatchQueue = .main, handler: @escaping (SubscribeEvent<Data>) -> Void) -> DataRequest {
         let id = nextRequestID
         let shipPrefixless = Ship.Prefixless(ship)
         let request = SubscribeRequest(id: id, ship: shipPrefixless, app: app, path: path)
         subscribeHandlers[id] = handler
         subscriptions[id] = Subscription(id: id, ship: ship, path: path, app: app)
 
-        return channelRequest(request).response { [weak self] response in
+        return channelRequest(request).response(queue: responseQueue) { [weak self] response in
             if case .failure = response.result {
                 self?.subscribeHandlers[id] = nil
                 self?.subscriptions[id] = nil
