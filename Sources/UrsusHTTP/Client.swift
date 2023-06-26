@@ -29,6 +29,8 @@ public class Client {
     public let credentials: Credentials
     private let channelSuffix: String?
 
+    public var onConnectionKilled: ((String) -> Void)?
+
     public init(session: Session = .default, credentials: Credentials, channelSuffix: String? = nil) {
         self.session = session
         self.credentials = credentials
@@ -212,7 +214,9 @@ extension Client {
     
     private func eventSource(didReceiveCompletion completion: DataStreamRequest.Completion) {
 //        deleteRequest()
-        
+
+        let oldEventSourceUID = eventSourceUID
+
         eventSource = nil
         eventSourceUID = uid()
 
@@ -221,6 +225,9 @@ extension Client {
         
         pokeHandlers.removeAll()
         subscribeHandlers.removeAll()
+        subscriptions.removeAll()
+
+        onConnectionKilled?(oldEventSourceUID)
     }
     
 }
